@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Navbar from "./components/navbar/Navbar";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Routes from "./routing/Routes";
+import {
+  StylesProvider,
+  ThemeProvider as MUIThemeProvider,
+} from "@material-ui/styles";
+import { ThemeProvider } from "styled-components";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
-function App() {
+const App = () => {
+  const theme = createMuiTheme();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Provider store={store}>
+        {/* <StylesProvider injectFirst> */}
+        <MUIThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
+            <Router>
+              <Navbar></Navbar>
+              <Switch>
+                <Route exact path="/" />
+                <Route component={Routes} />
+              </Switch>
+              <ToastContainer />
+            </Router>
+          </ThemeProvider>
+        </MUIThemeProvider>
+        {/* </StylesProvider> */}
+      </Provider>
     </div>
   );
-}
+};
 
 export default App;
