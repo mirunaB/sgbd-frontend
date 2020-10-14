@@ -12,10 +12,20 @@ export const resetErrors = () => ({
   payload: {},
 });
 
-export const addTable = (nameDb, nameTable) => async (dispatch) => {
+export const addTable = (nameDb, nameTable, columns) => async (dispatch) => {
+  const cols = columns.map((col) => {
+    const newCol = col;
+    delete newCol["id"];
+    return {
+      ...newCol,
+    };
+  });
   try {
     const res = await axios.post(
-      `http://localhost:8080/catalog/saveDb/${nameDb}/${nameTable}`,
+      `http://localhost:8080/catalog/saveTable/${nameDb}/${nameTable}`,
+      {
+        cols: cols,
+      },
       {
         headers: {
           "Content-Type": "application/json;charset=utf-8",

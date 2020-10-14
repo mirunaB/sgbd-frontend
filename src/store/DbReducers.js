@@ -3,11 +3,14 @@ import {
   ADD_DATABASES_ERR,
   DROP_DATABASES_SUCC,
   DROP_DATABASES_ERR,
+  GET_DB,
+  GET_DB_ERR,
 } from "./Types";
 
 const initialState = {
   database: {},
   errors: {},
+  databases: [],
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +32,16 @@ export default function (state = initialState, action) {
         ...state,
       };
     case DROP_DATABASES_ERR:
+      return {
+        ...state,
+        errors: payload,
+      };
+    case GET_DB:
+      return {
+        ...state,
+        databases: payload,
+      };
+    case GET_DB_ERR:
       return {
         ...state,
         errors: payload,

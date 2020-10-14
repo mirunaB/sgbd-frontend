@@ -6,3 +6,5 @@ export const ADD_TABLE_SUCC = "ADD_TABLE_SUCC";
 export const ADD_TABLE_ERR = "ADD_TABLE_ERR";
 export const DROP_TABLE_SUCC = "DROP_TABLE_SUCC";
 export const DROP_TABLE_ERR = "DROP_TABLE_ERR";
+export const GET_DB = "GET_DB";
+export const GET_DB_ERR = "GET_DB_ERR";

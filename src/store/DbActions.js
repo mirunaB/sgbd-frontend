@@ -4,6 +4,8 @@ import {
   DROP_DATABASES_SUCC,
   ADD_DATABASES_ERR,
   ADD_DATABASES_SUCC,
+  GET_DB,
+  GET_DB_ERR,
 } from "./Types";
 import { toast } from "react-toastify";
 
@@ -57,5 +59,22 @@ export const dropDb = (name) => async (dispatch) => {
       payload: err.response,
     });
     toast.error("This database doesn't exist ");
+  }
+};
+
+export const getDb = () => async (dispatch) => {
+  try {
+    const res = await axios.get("http://localhost:8080/catalog/databases", {
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    });
+
+    dispatch({
+      type: GET_DB,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({ type: GET_DB_ERR, payload: error });
   }
 };
