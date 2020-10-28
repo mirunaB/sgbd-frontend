@@ -81,7 +81,9 @@ const DropTable = () => {
               />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" variant="contained" color="primary">
+                Submit
+              </Button>
             </Grid>
           </Grid>
         </Form>

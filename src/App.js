@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./components/navbar/Navbar";
+import SwowDb from "./components/databases/ShowDb";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Routes from "./routing/Routes";
 import {
@@ -24,7 +25,6 @@ const App = () => {
             <Router>
               <Navbar></Navbar>
               <Switch>
-                <Route exact path="/" />
                 <Route component={Routes} />
               </Switch>
               <ToastContainer />

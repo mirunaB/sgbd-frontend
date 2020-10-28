@@ -12,6 +12,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { addTable } from "../../store/TableActions";
+import { useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 const Form = styled.form`
   width: 100%;
@@ -42,12 +44,14 @@ const AddTable = () => {
   const dispatch = useDispatch();
   const [age, setAge] = React.useState("");
   const [columns, setColumns] = useState([]);
+  const location = useLocation();
+  const values = queryString.parse(location.search);
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
   const [formData, setFormData] = useState({
-    dbName: "",
+    dbName: values && values.name ? values.name : "",
     tableName: "",
   });
   const { dbName, tableName } = formData;
@@ -101,7 +105,7 @@ const AddTable = () => {
   console.log(columns);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="lg">
       <Wrapper>
         <Typography component="h1" variant="h5">
           Add a new table
@@ -150,7 +154,7 @@ const AddTable = () => {
                   <Grid
                     container
                     style={{
-                      width: "100%",
+                      // width: "100%",
                       display: "flex",
                       background: "#f1f1f1",
                       padding: "8px",
@@ -159,7 +163,7 @@ const AddTable = () => {
                     }}
                     key={`col-${index}`}
                   >
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
                       <TextField
                         variant="outlined"
                         required
@@ -173,7 +177,7 @@ const AddTable = () => {
                         name="attributeName"
                       />
                     </StyledGridCol>
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Type
@@ -190,7 +194,7 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
                       <TextField
                         variant="outlined"
                         required
@@ -202,7 +206,7 @@ const AddTable = () => {
                         name="length"
                       />
                     </StyledGridCol>
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Is null
@@ -220,7 +224,7 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Is primary key
@@ -238,7 +242,7 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Is unique key
@@ -256,7 +260,9 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol item xs={12} sm={6}>
+                    <StyledGridCol>
+                      {" "}
+                      {/*item xs={12} sm={6}> */}
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Index

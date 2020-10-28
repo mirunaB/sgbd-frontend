@@ -1,13 +1,21 @@
 import {
   ADD_TABLE_SUCC,
-  ADD_TABLE_ERR,
   DROP_TABLE_SUCC,
-  DROP_TABLE_ERR,
+  ADD_ROW_SUCC,
+  GET_TABLES_SUCC,
+  GET_TABLE_COLS_SUCC,
+  GET_ROWS_SUCC,
+  DELETE_ROW_SUCC,
+  DB_ERROR,
 } from "./Types";
 
 const initialState = {
   table: {},
   errors: {},
+  row: {},
+  tables: [],
+  cols: [],
+  rows: {},
 };
 
 export default function (state = initialState, action) {
@@ -19,16 +27,35 @@ export default function (state = initialState, action) {
         ...state,
         table: payload,
       };
-    case ADD_TABLE_ERR:
-      return {
-        ...state,
-        errors: payload,
-      };
     case DROP_TABLE_SUCC:
       return {
         ...state,
       };
-    case DROP_TABLE_ERR:
+    case ADD_ROW_SUCC:
+      return {
+        ...state,
+        row: payload,
+      };
+    case GET_TABLES_SUCC:
+      return {
+        ...state,
+        tables: payload,
+      };
+    case GET_TABLE_COLS_SUCC:
+      return {
+        ...state,
+        cols: payload,
+      };
+    case GET_ROWS_SUCC:
+      return {
+        ...state,
+        rows: payload,
+      };
+    case DELETE_ROW_SUCC:
+      return {
+        ...state,
+      };
+    case DB_ERROR:
       return {
         ...state,
         errors: payload,

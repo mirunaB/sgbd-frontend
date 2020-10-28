@@ -1,16 +1,14 @@
 import axios from "axios";
 import {
-  DROP_DATABASES_ERR,
   DROP_DATABASES_SUCC,
-  ADD_DATABASES_ERR,
   ADD_DATABASES_SUCC,
   GET_DB,
-  GET_DB_ERR,
+  DB_ERROR,
 } from "./Types";
 import { toast } from "react-toastify";
 
 export const resetErrors = () => ({
-  type: ADD_DATABASES_ERR,
+  type: DB_ERROR,
   payload: {},
 });
 
@@ -31,7 +29,7 @@ export const addDb = (name) => async (dispatch) => {
     toast.success("Databases added ");
   } catch (err) {
     dispatch({
-      type: ADD_DATABASES_ERR,
+      type: DB_ERROR,
       payload: err.response,
     });
     toast.error("This database already exists");
@@ -55,7 +53,7 @@ export const dropDb = (name) => async (dispatch) => {
     toast.success("Database was deleted ");
   } catch (err) {
     dispatch({
-      type: DROP_DATABASES_ERR,
+      type: DB_ERROR,
       payload: err.response,
     });
     toast.error("This database doesn't exist ");
@@ -75,6 +73,6 @@ export const getDb = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (error) {
-    dispatch({ type: GET_DB_ERR, payload: error });
+    dispatch({ type: DB_ERROR, payload: error });
   }
 };

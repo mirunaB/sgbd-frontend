@@ -1,10 +1,11 @@
 export const ADD_DATABASES_SUCC = "ADD_DATABASES_SUCC";
-export const ADD_DATABASES_ERR = "ADD_DATABASES_ERR";
 export const DROP_DATABASES_SUCC = "DROP_DATABASES_SUCC";
-export const DROP_DATABASES_ERR = "DROP_DATABASES_ERR";
 export const ADD_TABLE_SUCC = "ADD_TABLE_SUCC";
-export const ADD_TABLE_ERR = "ADD_TABLE_ERR";
 export const DROP_TABLE_SUCC = "DROP_TABLE_SUCC";
-export const DROP_TABLE_ERR = "DROP_TABLE_ERR";
 export const GET_DB = "GET_DB";
-export const GET_DB_ERR = "GET_DB_ERR";
+export const ADD_ROW_SUCC = "ADD_ROW_SUCC";
+export const GET_TABLES_SUCC = "GET_TABLES_SUCC";
+export const GET_TABLE_COLS_SUCC = "GET_TABLE_COLS_SUCC";
+export const DB_ERROR = "DB_ERROR";
+export const GET_ROWS_SUCC = "GET_ROWS_SUCC";
+export const DELETE_ROW_SUCC = " DELETE_ROW_SUCC";
