@@ -173,25 +173,19 @@ export const getRows = (nameDb, nameTable) => async (dispatch) => {
 export const deleteRow = (nameDb, nameTable, key, value) => async (
   dispatch
 ) => {
-  console.log("keeeey", key);
-  console.log("value", value);
-  console.log("table", nameTable);
-
   try {
-    const res = await axios.delete(
-      `http://localhost:8080/record/deleteRecord/${nameDb}/${nameTable}`,
-
-      {
+    const res = await axios({
+      method: "DELETE",
+      url: `http://localhost:8080/record/deleteRecord/${nameDb}/${nameTable}`,
+      data: {
         row: {
-          key: value,
+          [key]: value,
         },
       },
-      {
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-      }
-    );
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    });
     dispatch({
       type: DELETE_ROW_SUCC,
       payload: res,
