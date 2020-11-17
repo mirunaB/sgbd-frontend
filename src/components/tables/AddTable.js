@@ -5,13 +5,13 @@ import { Button, Paper } from "@material-ui/core";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { addTable } from "../../store/TableActions";
+import { addTable, getTablesFk } from "../../store/TableActions";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 
@@ -46,6 +46,7 @@ const AddTable = () => {
   const [columns, setColumns] = useState([]);
   const location = useLocation();
   const values = queryString.parse(location.search);
+  const tablesFk = useSelector((state) => state.tableReducers.tablesFk || []);
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -54,6 +55,7 @@ const AddTable = () => {
     dbName: values && values.name ? values.name : "",
     tableName: "",
   });
+
   const { dbName, tableName } = formData;
 
   const onSubmit = (e) => {
@@ -70,6 +72,8 @@ const AddTable = () => {
   };
 
   const addColumn = () => {
+    if (formData.tableName === "") return;
+    dispatch(getTablesFk(dbName, formData.tableName));
     setColumns([
       ...columns,
       {
@@ -85,6 +89,7 @@ const AddTable = () => {
         keyLength: 0,
         isUnique: false,
         indexType: "",
+        fk: {},
       },
     ]);
   };
@@ -154,7 +159,7 @@ const AddTable = () => {
                   <Grid
                     container
                     style={{
-                      // width: "100%",
+                      width: "100%",
                       display: "flex",
                       background: "#f1f1f1",
                       padding: "8px",
@@ -163,7 +168,7 @@ const AddTable = () => {
                     }}
                     key={`col-${index}`}
                   >
-                    <StyledGridCol>
+                    <StyledGridCol item md={2} sm={6}>
                       <TextField
                         variant="outlined"
                         required
@@ -177,7 +182,7 @@ const AddTable = () => {
                         name="attributeName"
                       />
                     </StyledGridCol>
-                    <StyledGridCol>
+                    <StyledGridCol item md={2} sm={6}>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Type
@@ -194,7 +199,7 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol>
+                    <StyledGridCol item md={2} sm={6}>
                       <TextField
                         variant="outlined"
                         required
@@ -206,7 +211,7 @@ const AddTable = () => {
                         name="length"
                       />
                     </StyledGridCol>
-                    <StyledGridCol>
+                    <StyledGridCol item md={2} sm={6}>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Is null
@@ -224,7 +229,7 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol>
+                    <StyledGridCol item md={2} sm={6}>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Is primary key
@@ -242,7 +247,7 @@ const AddTable = () => {
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    <StyledGridCol>
+                    <StyledGridCol item md={2} sm={6} xs={12}>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
                           Is unique key
@@ -261,26 +266,32 @@ const AddTable = () => {
                       </FormControlStyled>
                     </StyledGridCol>
                     <StyledGridCol>
-                      {" "}
-                      {/*item xs={12} sm={6}> */}
+                      <p>
+                        <Typography>Foreign key for table</Typography>
+                      </p>
+                    </StyledGridCol>
+                    <StyledGridCol>
                       <FormControlStyled>
                         <InputLabel id="demo-simple-select-label">
-                          Index
+                          Table
                         </InputLabel>
                         <Select
-                          labelId="hasIndex"
-                          id="hasIndex"
-                          onChange={(e) =>
-                            handleColumnChange(e, index, "hasIndex")
-                          }
-                          value={columns[index].hasIndex}
+                          labelId="fk"
+                          id="fk"
+                          onChange={(e) => handleColumnChange(e, index, "fk")}
+                          value={columns[index].fk}
                         >
-                          <MenuItem value="true">true</MenuItem>
-                          <MenuItem value="false">false</MenuItem>
+                          {tablesFk &&
+                            Object.keys(tablesFk).length > 0 &&
+                            Object.keys(tablesFk).map((key) => (
+                              <MenuItem
+                                value={`${key},${tablesFk[key]}`}
+                              >{`${key},${tablesFk[key]}`}</MenuItem>
+                            ))}
                         </Select>
                       </FormControlStyled>
                     </StyledGridCol>
-                    {columns[index].hasIndex && (
+                    {/* {columns[index].hasIndex && (
                       <StyledGridCol item xs={12} sm={6}>
                         <TextField
                           variant="outlined"
@@ -296,26 +307,31 @@ const AddTable = () => {
                         />
                       </StyledGridCol>
                     )}
-                    {columns[index].hasIndex && (
-                      <StyledGridCol item xs={12} sm={6}>
-                        <TextField
-                          variant="outlined"
-                          required
-                          fullWidth
-                          onChange={(e) =>
-                            handleColumnChange(e, index, "indexType")
-                          }
-                          value={columns[index].name}
-                          id="indexType"
-                          label="Index type"
-                          name="indexType"
-                        />
-                      </StyledGridCol>
-                    )}
+                    // {columns[index].hasIndex && ( 
+                    //   <StyledGridCol item xs={12} sm={6}>
+                    //     <TextField
+                    //       variant="outlined"
+                    //       required
+                    //       fullWidth
+                    //       onChange={(e) =>
+                    //         handleColumnChange(e, index, "indexType")
+                    //       }
+                    //       value={columns[index].name}
+                    //       id="indexType"
+                    //       label="Index type"
+                    //       name="indexType"
+                    //     />
+                    //   </StyledGridCol>
+                    // )} */}
                   </Grid>
                 ))}
               <Grid item xs={12} sm={12}>
-                <Button color="primary" variant="outlined" onClick={addColumn}>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={addColumn}
+                  disabled={formData.tableName === ""}
+                >
                   Add Column
                 </Button>
               </Grid>

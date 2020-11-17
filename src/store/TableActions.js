@@ -5,6 +5,7 @@ import {
   ADD_ROW_SUCC,
   GET_TABLES_SUCC,
   GET_TABLE_COLS_SUCC,
+  GET_TABLES_FK,
   GET_ROWS_SUCC,
   DELETE_ROW_SUCC,
   DB_ERROR,
@@ -19,17 +20,21 @@ export const resetErrors = () => ({
 export const addTable = (nameDb, nameTable, columns) => async (dispatch) => {
   const cols = columns.map((col) => {
     const newCol = col;
+    const value = col.fk;
     delete newCol["id"];
-    return {
+    delete newCol["fk"];
+    const colRes = {
       ...newCol,
     };
+    if (Object.keys(value).length > 0) {
+      colRes[col.attributeName] = value;
+    }
+    return colRes;
   });
   try {
     const res = await axios.post(
       `http://localhost:8080/catalog/saveTable/${nameDb}/${nameTable}`,
-      {
-        cols: cols,
-      },
+      cols,
       {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -123,6 +128,26 @@ export const getTables = (nameDb) => async (dispatch) => {
 
     dispatch({
       type: GET_TABLES_SUCC,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({ type: DB_ERROR, payload: error });
+  }
+};
+
+export const getTablesFk = (nameDb, tableName) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:8080/catalog/tables/${nameDb}/${tableName}`,
+      {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      }
+    );
+
+    dispatch({
+      type: GET_TABLES_FK,
       payload: res.data,
     });
   } catch (error) {

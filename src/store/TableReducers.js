@@ -6,6 +6,7 @@ import {
   GET_TABLE_COLS_SUCC,
   GET_ROWS_SUCC,
   DELETE_ROW_SUCC,
+  GET_TABLES_FK,
   DB_ERROR,
 } from "./Types";
 
@@ -16,6 +17,7 @@ const initialState = {
   tables: [],
   cols: [],
   rows: {},
+  tablesFk: {},
 };
 
 export default function (state = initialState, action) {
@@ -45,6 +47,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         cols: payload,
+      };
+    case GET_TABLES_FK:
+      return {
+        ...state,
+        tablesFk: payload,
       };
     case GET_ROWS_SUCC:
       return {
