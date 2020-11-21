@@ -9,6 +9,7 @@ import {
   GET_ROWS_SUCC,
   DELETE_ROW_SUCC,
   DB_ERROR,
+  SELECT_SUCC,
 } from "./Types";
 import { toast } from "react-toastify";
 
@@ -218,6 +219,35 @@ export const deleteRow = (nameDb, nameTable, key, value) => async (
       payload: res,
     });
     toast.success("Row was deleted ");
+  } catch (err) {
+    dispatch({
+      type: DB_ERROR,
+      payload: err.response,
+    });
+    toast.error("Something went wrong please try again ");
+  }
+};
+
+export const select = (dbName, columns, tableName, condition) => async (dispatch) => {
+
+  try {
+    const res = await axios.post(
+      `http://localhost:8080/record/select`,
+      dbName,
+      tableName,
+      condition,
+      columns,
+      {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      }
+    );
+    dispatch({
+      type: SELECT_SUCC,
+      payload: res,
+    });
+    toast.success("SELECT succeeded ");
   } catch (err) {
     dispatch({
       type: DB_ERROR,

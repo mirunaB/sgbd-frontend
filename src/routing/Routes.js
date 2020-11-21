@@ -7,6 +7,7 @@ import AddTable from "../components/tables/AddTable";
 import ShowDb from "../components/databases/ShowDb";
 import ShowTables from "../components/databases/ShowTables";
 import AddRow from "../components/tables/AddRow";
+import Select from "../components/tables/Select"
 
 const Routes = () => {
   return (
@@ -20,6 +21,7 @@ const Routes = () => {
         <Route exact path="/getDbs" component={ShowDb} />
         <Route exact path="/getTables" component={ShowTables} />
         <Route exact path="/addRow" component={AddRow} />
+        <Route exact path="/select" component={Select} />
       </Switch>
     </div>
   );

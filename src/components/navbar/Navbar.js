@@ -68,6 +68,9 @@ const Navbar = () => {
               <MenuItem onClick={handleClose}>Show databases</MenuItem>
             </Link>
             {/* <MenuItem onClick={handleClose}>Add index</MenuItem> */}
+            <Link to="/select" style={{ textDecoration: "none" }}>
+              <MenuItem onClick={handleClose}>Select</MenuItem>
+            </Link>
           </Menu>
         </Toolbar>
       </AppBar>
