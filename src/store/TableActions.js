@@ -27,7 +27,9 @@ export const addTable = (nameDb, nameTable, columns) => async (dispatch) => {
       ...newCol,
     };
     if (Object.keys(value).length > 0) {
-      colRes[col.attributeName] = value;
+      colRes.fKeys = {
+        [col.attributeName]: value,
+      };
     }
     return colRes;
   });
@@ -178,7 +180,7 @@ export const getColumns = (nameDb, nameTable) => async (dispatch) => {
 export const getRows = (nameDb, nameTable) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `http://localhost:8080/record/findAll/${nameDb}/${nameTable}`,
+      `http://localhost:8080/record/findAllRec/${nameDb + "_" + nameTable}`,
       {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
