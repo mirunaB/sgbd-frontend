@@ -3,12 +3,14 @@ import {
   DB_ERROR,
   DROP_DATABASES_SUCC,
   GET_DB,
+  SELECT_SUCC,
 } from "./Types";
 
 const initialState = {
   database: {},
   errors: {},
   databases: [],
+  records: [],
 };
 
 export default function (state = initialState, action) {
@@ -34,6 +36,11 @@ export default function (state = initialState, action) {
         ...state,
         errors: payload,
       };
+    case SELECT_SUCC:
+      return {
+        ...state,
+        records: payload,
+      }
     default:
       return state;
   }

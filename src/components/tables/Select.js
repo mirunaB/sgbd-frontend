@@ -46,7 +46,8 @@ const AddTable = () => {
   const [columns, setColumns] = useState([]);
   const location = useLocation();
   const values = queryString.parse(location.search);
-  const tablesFk = useSelector((state) => state.tableReducers.tablesFk || []);
+  let records = useSelector((state) => state.dbReducers.records || []);
+  console.log(records.data);
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -67,7 +68,7 @@ const AddTable = () => {
       toast.error("Name is required");
       setErrors({ name: true });
     } else {
-      dispatch(select(formData.dbName, formData.columns, formData.table, formData.condition));
+      dispatch(select(formData.dbName, formData.columns, formData.tableName, formData.condition));
     }
   };
 
@@ -140,9 +141,9 @@ const AddTable = () => {
                 required
                 fullWidth
                 onChange={(e) =>
-                  setFormData({ ...formData, tableName: e.target.value })
+                  setFormData({ ...formData, columns: e.target.value })
                 }
-                value={formData.tableName}
+                value={formData.columns}
                 id="columns"
                 label="Columns"
                 name="columns"
@@ -176,9 +177,9 @@ const AddTable = () => {
                         required
                         fullWidth
                         onChange={(e) =>
-                            setFormData({ ...formData, dbName: e.target.value })
+                            setFormData({ ...formData, condition: e.target.value })
                         }
-                        value={formData.dbName}
+                        value={formData.condition}
                         id="condition"
                         label="Condition"
                         name="condition"
@@ -192,6 +193,11 @@ const AddTable = () => {
           </Grid>
         </Form>
       </Wrapper>
+      <ul>
+              {records.data != undefined && records.data.map(item => {
+                return <li>{item}</li>;
+              })}
+            </ul>
     </Container>
   );
 };

@@ -228,19 +228,16 @@ export const deleteRow = (nameDb, nameTable, key, value) => async (
   }
 };
 
-export const select = (dbName, columns, tableName, condition) => async (dispatch) => {
+export const select = (dbName, columns, table, condition) => async (dispatch) => {
 
+    console.log(dbName);
   try {
     const res = await axios.post(
-      `http://localhost:8080/record/select`,
-      dbName,
-      tableName,
-      condition,
-      columns,
+      `http://localhost:8080/record/select?dbName=${dbName}&tableName=${table}&condition=${condition}&columns=${columns}`,
       {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
-        },
+        }
       }
     );
     dispatch({
