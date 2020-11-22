@@ -250,6 +250,6 @@ export const select = (dbName, columns, table, condition) => async (dispatch) =>
       type: DB_ERROR,
       payload: err.response,
     });
-    toast.error("Something went wrong please try again ");
+    toast.error("Invalid query! ");
   }
 };
