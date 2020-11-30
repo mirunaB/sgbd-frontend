@@ -10,6 +10,7 @@ import {
   DELETE_ROW_SUCC,
   DB_ERROR,
   SELECT_SUCC,
+  ADD_INDEX_SUCC,
 } from "./Types";
 import { toast } from "react-toastify";
 
@@ -114,7 +115,11 @@ export const addRow = (nameDb, nameTable, columns) => async (dispatch) => {
       type: DB_ERROR,
       payload: err.response,
     });
-    toast.error("Something went wrong please try again ");
+    if (err.response.data && err.response.data === "FIELD_MUST_BE_UNIQUE") {
+      toast.error("Field must be unique");
+    } else if (err.response.data && err.response.data === "FK_CONSRAINT") {
+      toast.error("Foreign key constraint error");
+    }
   }
 };
 
@@ -224,20 +229,21 @@ export const deleteRow = (nameDb, nameTable, key, value) => async (
       type: DB_ERROR,
       payload: err.response,
     });
-    toast.error("Something went wrong please try again ");
+    toast.error("Cannot delete this row. There is a fk constraint");
   }
 };
 
-export const select = (dbName, columns, table, condition) => async (dispatch) => {
-
-    console.log(dbName);
+export const select = (dbName, columns, table, condition) => async (
+  dispatch
+) => {
+  console.log(dbName);
   try {
     const res = await axios.post(
       `http://localhost:8080/record/select?dbName=${dbName}&tableName=${table}&condition=${condition}&columns=${columns}`,
       {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
-        }
+        },
       }
     );
     dispatch({
@@ -251,5 +257,39 @@ export const select = (dbName, columns, table, condition) => async (dispatch) =>
       payload: err.response,
     });
     toast.error("Invalid query! ");
+  }
+};
+
+export const addIndex = (nameDb, nameTable, data) => async (dispatch) => {
+  const { name, isUnique, columns } = data;
+  const columnList = columns.map((col) => ({
+    attributeName: col.columnsIndex,
+  }));
+
+  try {
+    const res = await axios.post(
+      `http://localhost:8080/catalog/addIndex/${nameDb}/${nameTable}`,
+      {
+        name,
+        isUnique,
+        columnList,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      }
+    );
+    dispatch({
+      type: ADD_INDEX_SUCC,
+      payload: res,
+    });
+    toast.success("Index added ");
+  } catch (err) {
+    dispatch({
+      type: DB_ERROR,
+      payload: err.response,
+    });
+    toast.error("Something went wrong please try again");
   }
 };

@@ -8,6 +8,7 @@ import {
   DELETE_ROW_SUCC,
   GET_TABLES_FK,
   DB_ERROR,
+  ADD_INDEX_SUCC,
 } from "./Types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   cols: [],
   rows: {},
   tablesFk: {},
+  index: {},
 };
 
 export default function (state = initialState, action) {
@@ -61,6 +63,11 @@ export default function (state = initialState, action) {
     case DELETE_ROW_SUCC:
       return {
         ...state,
+      };
+    case ADD_INDEX_SUCC:
+      return {
+        ...state,
+        index: payload,
       };
     case DB_ERROR:
       return {

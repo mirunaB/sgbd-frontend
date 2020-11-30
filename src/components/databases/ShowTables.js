@@ -2,7 +2,6 @@ import React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
@@ -131,6 +130,12 @@ const ShowTables = () => {
                     style={{ textDecoration: "none", color: "black" }}
                   >
                     <MenuItem onClick={handleClose}>Add new row</MenuItem>
+                  </Link>
+                  <Link
+                    to={`/addIndex?table=${row}&db=${nameDb.name}`}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <MenuItem onClick={handleClose}>Add index</MenuItem>
                   </Link>
                 </Menu>
               </TableCell>
