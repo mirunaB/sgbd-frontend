@@ -119,6 +119,44 @@ const AddTable = () => {
               </Grid>
             </Grid>
             <Typography component="h1" variant="h5">
+              INNER JOIN
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  variant="outlined"
+                  // required
+                  fullWidth
+                  // onChange={(e) =>
+                  //   setFormData({ ...formData, tableName: e.target.value })
+                  // }
+                  // value={formData.tableName}
+                  // id="table"
+                  label="innerJoin"
+                  name="innerJoin"
+                />
+              </Grid>
+            </Grid>
+            <Typography component="h1" variant="h5">
+              ON
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  variant="outlined"
+                  // required
+                  fullWidth
+                  // onChange={(e) =>
+                  //   setFormData({ ...formData, tableName: e.target.value })
+                  // }
+                  // value={formData.tableName}
+                  // id="table"
+                  label="on"
+                  name="on"
+                />
+              </Grid>
+            </Grid>
+            <Typography component="h1" variant="h5">
               WHERE
             </Typography>
             <Grid item xs={12} sm={12}>
