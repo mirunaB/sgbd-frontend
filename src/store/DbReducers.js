@@ -4,6 +4,8 @@ import {
   DROP_DATABASES_SUCC,
   GET_DB,
   SELECT_SUCC,
+  SELECT_JOIN_SUCC,
+  GROUP_BY_SUCC,
 } from "./Types";
 
 const initialState = {
@@ -11,6 +13,8 @@ const initialState = {
   errors: {},
   databases: [],
   records: [],
+  recordsJoin: [],
+  groupByResult: {},
 };
 
 export default function (state = initialState, action) {
@@ -40,7 +44,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         records: payload,
-      }
+      };
+    case SELECT_JOIN_SUCC:
+      return {
+        ...state,
+        recordsJoin: payload,
+      };
+    case GROUP_BY_SUCC:
+      return {
+        ...state,
+        groupByResult: payload,
+      };
     default:
       return state;
   }

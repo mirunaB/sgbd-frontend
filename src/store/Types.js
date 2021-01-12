@@ -12,3 +12,5 @@ export const DELETE_ROW_SUCC = " DELETE_ROW_SUCC";
 export const GET_TABLES_FK = "GET_TABLES_FK";
 export const SELECT_SUCC = "SELECT SUCC";
 export const ADD_INDEX_SUCC = "ADD_INDEX_SUCC";
+export const SELECT_JOIN_SUCC = "SELECT_JOIN_SUCC";
+export const GROUP_BY_SUCC = "GROUP_BY_SUCC";

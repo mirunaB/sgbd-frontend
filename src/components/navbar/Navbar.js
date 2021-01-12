@@ -71,6 +71,12 @@ const Navbar = () => {
             <Link to="/select" style={{ textDecoration: "none" }}>
               <MenuItem onClick={handleClose}>Select</MenuItem>
             </Link>
+            <Link to="/selectJoin" style={{ textDecoration: "none" }}>
+              <MenuItem onClick={handleClose}>Select Join</MenuItem>
+            </Link>
+            <Link to="/groupBy" style={{ textDecoration: "none" }}>
+              <MenuItem onClick={handleClose}>Group by</MenuItem>
+            </Link>
           </Menu>
         </Toolbar>
       </AppBar>
